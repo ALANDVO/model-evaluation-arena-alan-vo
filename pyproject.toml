@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "model-evaluation-arena-alan-vo"
+version = "1.0.0"
+description = "Compare uploaded model predictions with classification/regression metrics, bootstrap confidence intervals and cohort slices"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+    { name = "Alan Vo", email = "alanvo@gmail.com" }
+]
+keywords = ["machine-learning", "model-evaluation", "arena", "bootstrap-confidence-intervals", "cohort-slices", "statistical-testing"]
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
+    "pydantic>=2.8.0",
+    "sqlalchemy>=2.0.30",
+    "httpx>=0.27.0",
+    "python-multipart>=0.0.9",
+    "pyjwt>=2.9.0",
+    "cryptography>=43.0.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+    "httpx>=0.27.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+pythonpath = ["backend"]
+asyncio_mode = "auto"
