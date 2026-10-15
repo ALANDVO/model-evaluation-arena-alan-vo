@@ -1,9 +1,24 @@
 # Changelog
 
+## 1.1.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 All notable changes to `model-evaluation-arena-alan-vo` will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.1.0] - 2026-10-15
+
+### Added
+- Wilcoxon signed-rank test implementation for non-parametric paired hypothesis testing in regression evaluations.
+- Replaced paired t-test with Wilcoxon signed-rank test as the default statistical test for regression residual comparisons (more robust to non-normal error distributions).
+- New unit tests for Wilcoxon signed-rank test covering significant differences, non-significant differences, and zero-difference edge cases.
+
+### Changed
+- `compare_model_runs_statistical` now uses Wilcoxon signed-rank test for regression tasks (previously used paired t-test).
+- Updated statistical test reporting to include W+ and W- rank sums in details.
 
 ## [1.0.0] - 2026-10-07
 
