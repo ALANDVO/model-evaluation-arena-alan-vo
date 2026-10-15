@@ -1,5 +1,8 @@
 # model-evaluation-arena-alan-vo | Alan Vo | AI & Machine Learning
 
+> Work in progress. This checkpoint may be incomplete or fail tests. See PLAN.md and STATUS.md before use.
+
+
 Current version: `1.0.0`.
 
 Model Evaluation Arena is an empirical evaluation platform designed for machine learning researchers, AI engineers, and model operators to rigorously compare competing model prediction sets against ground-truth benchmarks. The platform implements non-parametric bootstrap resampling confidence intervals, paired hypothesis testing (McNemar and Wilcoxon/paired t-tests), reliability diagrams for expected calibration error (ECE), and cohort slice disparity detection to systematically surface hidden vulnerabilities and demographic disparities before model deployment.
