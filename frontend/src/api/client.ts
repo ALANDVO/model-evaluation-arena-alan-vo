@@ -75,6 +75,14 @@ class ApiClient {
     return this.req<ArenaEvaluationResponse>('/api/evaluations/run', { method: 'POST', body: JSON.stringify(payload) });
   }
 
+  async getReportDetails(reportId: number): Promise<ArenaEvaluationResponse> {
+    return this.req<ArenaEvaluationResponse>(`/api/evaluations/reports/${reportId}`);
+  }
+
+  async listReports(datasetId?: number): Promise<any[]> {
+    return this.req<any[]>(datasetId ? `/api/evaluations/reports?dataset_id=${datasetId}` : '/api/evaluations/reports');
+  }
+
   async requestAdvisoryAudit(payload: any): Promise<AdvisoryAuditResponse> {
     return this.req<AdvisoryAuditResponse>('/api/llm/audit', { method: 'POST', body: JSON.stringify(payload) });
   }

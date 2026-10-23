@@ -116,6 +116,70 @@ def list_reports(dataset_id: Optional[int] = None, skip: int = Query(0, ge=0), l
     if dataset_id: q = q.filter(EvaluationReport.dataset_id == dataset_id)
     return [{"id": r.id, "dataset_id": r.dataset_id, "title": r.title, "model_run_ids": json.loads(r.model_run_ids), "created_by": r.created_by, "created_at": r.created_at} for r in q.order_by(EvaluationReport.id.desc()).offset(skip).limit(limit).all()]
 
+@router.get("/reports/{report_id}")
+def get_report_details(report_id: int, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    r = db.query(EvaluationReport).filter(EvaluationReport.id == report_id).first()
+    if not r:
+        raise HTTPException(404, "Evaluation report not found")
+    
+    # Parse stored JSON fields
+    metrics_summary = json.loads(r.metrics_summary)
+    bootstrap_results = json.loads(r.bootstrap_results)
+    slice_disparities = json.loads(r.slice_disparities)
+    paired_comparisons = json.loads(r.paired_comparisons)
+    model_run_ids = json.loads(r.model_run_ids)
+    
+    # Fetch model run names for display
+    model_runs = db.query(ModelRun).filter(ModelRun.id.in_(model_run_ids)).all()
+    model_names = {mr.id: mr.name for mr in model_runs}
+    
+    # Reconstruct full response with model names
+    models_list = []
+    for model_id_str, metrics in metrics_summary.items():
+        model_id = int(model_id_str)
+        ci_data = bootstrap_results.get(model_id_str, {})
+        bootstrap_cis = {}
+        for metric_name, ci_vals in ci_data.items():
+            bootstrap_cis[metric_name] = ConfidenceInterval(
+                point_estimate=ci_vals["point_estimate"],
+                ci_lower=ci_vals["ci_lower"],
+                ci_upper=ci_vals["ci_upper"],
+                standard_error=ci_vals["standard_error"],
+            )
+        models_list.append(ModelMetrics(
+            model_run_id=model_id,
+            model_name=model_names.get(model_id, f"Model {model_id}"),
+            sample_size=metrics.get("sample_size", 0),
+            metrics=metrics,
+            bootstrap_cis=bootstrap_cis,
+        ))
+    
+    # Reconstruct paired tests with model names
+    paired_tests = []
+    for pt in paired_comparisons:
+        pt_copy = pt.copy()
+        pt_copy["model_a_name"] = model_names.get(pt["model_a_id"], f"Model {pt['model_a_id']}")
+        pt_copy["model_b_name"] = model_names.get(pt["model_b_id"], f"Model {pt['model_b_id']}")
+        paired_tests.append(PairedHypothesisResult(**pt_copy))
+    
+    # Reconstruct slice disparities
+    slice_breakdowns = [SliceDisparityResult(**s) for s in slice_disparities]
+    
+    # Get dataset info
+    ds = db.query(Dataset).filter(Dataset.id == r.dataset_id).first()
+    
+    return ArenaEvaluationResponse(
+        report_id=r.id,
+        dataset_id=r.dataset_id,
+        dataset_name=ds.name if ds else "Unknown Dataset",
+        task_type=ds.task_type if ds else "classification",
+        models=models_list,
+        paired_tests=paired_tests,
+        slice_disparities=slice_breakdowns,
+        reliability_diagrams=[],  # Not stored in DB, would need recomputation
+        advisory_notes=r.advisory_notes,
+        generated_at=r.created_at,
+    )
 @router.get("/export/{report_id}")
 def export_report(report_id: int, format: str = Query("json", pattern="^(json|csv)$"), db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
     r = db.query(EvaluationReport).filter(EvaluationReport.id == report_id).first()

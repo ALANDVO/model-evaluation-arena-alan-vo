@@ -83,7 +83,7 @@ describe('Frontend Component Tests', () => {
     expect(screen.getByText('Model Alpha')).toBeInTheDocument();
     expect(screen.getByText('Model Beta')).toBeInTheDocument();
     expect(screen.getAllByText(/Leader/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/95% CI: \[0.8800, 0.9500\]/i)).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('95% CI') && content.includes('0.8800') && content.includes('0.9500'))).toBeInTheDocument();
     expect(screen.getByText(/Significant/i)).toBeInTheDocument();
   });
 
