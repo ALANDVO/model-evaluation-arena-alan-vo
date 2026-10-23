@@ -45,6 +45,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
           >
             Advisory & Audit
           </button>
+          <button
+            className={`nav-btn ${activeTab === 'compare' ? 'active' : ''}`}
+            onClick={() => setActiveTab('compare')}
+          >
+            Report Comparison
+          </button>
         </nav>
 
         <div className="navbar-user">

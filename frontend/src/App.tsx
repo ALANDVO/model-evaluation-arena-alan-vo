@@ -3,12 +3,12 @@ import { api } from './api/client';
 import { AdvisoryReportView } from './components/AdvisoryReportView';
 import { ArenaBenchmarkView } from './components/ArenaBenchmarkView';
 import { DatasetManager } from './components/DatasetManager';
+import { EvaluationReportComparison } from './components/EvaluationReportComparison';
 import { ModelRunUploader } from './components/ModelRunUploader';
 import { Navbar } from './components/Navbar';
 import { SliceDisparityView } from './components/SliceDisparityView';
 import { useAuth } from './context/AuthContext';
 import { ArenaEvaluationResponse, Dataset, ModelRun } from './types/api';
-
 export const App: React.FC = () => {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<string>('arena');
@@ -118,6 +118,13 @@ export const App: React.FC = () => {
                 selectedDataset={selectedDataset}
                 modelRuns={modelRuns}
                 reportId={evaluationResult?.report_id}
+              />
+            )}
+            {activeTab === 'compare' && (
+              <EvaluationReportComparison
+                datasets={datasets}
+                selectedDataset={selectedDataset}
+                onSelectDataset={setSelectedDataset}
               />
             )}
           </>
