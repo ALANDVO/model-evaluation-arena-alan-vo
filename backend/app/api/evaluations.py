@@ -99,6 +99,7 @@ def run_evaluation(
         bootstrap_results=json.dumps({str(m.model_run_id): {k: v.model_dump() for k, v in m.bootstrap_cis.items()} for m in models_metrics_list}),
         slice_disparities=json.dumps([s.model_dump() for s in slice_breakdowns]),
         paired_comparisons=json.dumps([p.model_dump() for p in paired_results]),
+        calibration_diagrams=json.dumps([d.model_dump() for d in reliability_diagrams]) if reliability_diagrams else None,
         created_by=current_user.get("username", "analyst"), created_at=now_utc,
     )
     db.add(report_record); db.commit(); db.refresh(report_record)
@@ -128,6 +129,7 @@ def get_report_details(report_id: int, db: Session = Depends(get_db), current_us
     slice_disparities = json.loads(r.slice_disparities)
     paired_comparisons = json.loads(r.paired_comparisons)
     model_run_ids = json.loads(r.model_run_ids)
+    calibration_diagrams = json.loads(r.calibration_diagrams) if r.calibration_diagrams else []
     
     # Fetch model run names for display
     model_runs = db.query(ModelRun).filter(ModelRun.id.in_(model_run_ids)).all()
@@ -165,6 +167,9 @@ def get_report_details(report_id: int, db: Session = Depends(get_db), current_us
     # Reconstruct slice disparities
     slice_breakdowns = [SliceDisparityResult(**s) for s in slice_disparities]
     
+    # Reconstruct calibration diagrams
+    calibration_diagrams_list = [ReliabilityDiagram(**d) for d in calibration_diagrams]
+    
     # Get dataset info
     ds = db.query(Dataset).filter(Dataset.id == r.dataset_id).first()
     
@@ -176,7 +181,7 @@ def get_report_details(report_id: int, db: Session = Depends(get_db), current_us
         models=models_list,
         paired_tests=paired_tests,
         slice_disparities=slice_breakdowns,
-        reliability_diagrams=[],  # Not stored in DB, would need recomputation
+        calibration_diagrams=calibration_diagrams_list or None,
         advisory_notes=r.advisory_notes,
         generated_at=r.created_at,
     )
