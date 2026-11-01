@@ -73,6 +73,7 @@ class EvaluationReport(Base):
     bootstrap_results = Column(Text, nullable=False)  # JSON map of model_id -> metric -> CI
     slice_disparities = Column(Text, nullable=False)  # JSON array of slice disparity breakdowns
     paired_comparisons = Column(Text, nullable=False)  # JSON paired hypothesis tests
+    calibration_diagrams = Column(Text, nullable=True)  # JSON array of calibration diagrams
     advisory_notes = Column(Text, nullable=True)
     created_by = Column(String(120), nullable=False)
     created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)
