@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.4.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
+## [1.3.1] - 2026-11-06
+
+### Added
+- Export functionality in Report Comparison view with JSON and CSV download buttons.
+- Client-side export of multi-report comparison data including metrics with bootstrap CIs, paired statistical tests, and slice disparities.
+- Added `downloadBlob` and `exportReport` methods to API client for single-report export via backend endpoint.
+
+### Changed
+- Rewrote EvaluationReportComparison component with proper TypeScript types (was previously minified).
+- Updated feature-plan.json, PLAN.md, and STATUS.md to track comparison-export feature as completed.
+
+
 ## 1.3.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.

@@ -35,3 +35,7 @@ build/
 *.sqlite-shm
 *.sqlite3-wal
 *.sqlite3-shm
+.turbo/
+.env.local
+.env.*.local
+**/data/media/
