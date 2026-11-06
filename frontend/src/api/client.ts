@@ -90,6 +90,16 @@ class ApiClient {
   async listAuditLogs(): Promise<{ total: number; items: AuditLogEntry[] }> {
     return this.req<{ total: number; items: AuditLogEntry[] }>('/api/audit');
   }
+  async downloadBlob(url: string): Promise<Blob> {
+    const res = await fetch(url, { credentials: 'include', headers: this.reqHeaders(undefined) });
+    if (!res.ok) throw new Error(`Download failed: ${res.statusText}`);
+    return res.blob();
+  }
+
+  async exportReport(reportId: number, format: 'json' | 'csv' = 'json'): Promise<Blob> {
+    return this.downloadBlob(`/api/evaluations/export/${reportId}?format=${format}`);
+  }
+
 }
 
 export const api = new ApiClient();
