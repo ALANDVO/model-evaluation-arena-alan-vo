@@ -210,3 +210,7 @@ The advisory LLM diagnostic engine is provider-agnostic. Configure credentials u
 ---
 
 **Model Evaluation Arena** &bull; Developed by **Alan Vo** &bull; [alanvo@gmail.com](mailto:alanvo@gmail.com)
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

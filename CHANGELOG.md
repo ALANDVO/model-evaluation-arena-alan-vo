@@ -55,3 +55,7 @@ Partial code published for continued development. Known issues: STATUS.md.
 - Fixed field name mismatch: `reliability_diagrams` → `calibration_diagrams` to match ArenaEvaluationResponse schema.
 
 All notable changes to `model-evaluation-arena-alan-vo` will be documented in this file.
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)
