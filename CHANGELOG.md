@@ -58,4 +58,4 @@ All notable changes to `model-evaluation-arena-alan-vo` will be documented in th
 
 ---
 
-Alan Vo · [alanvo.net](https://alanvo.net)
+Alan Vo · [alanvo.net](https://alanvo.net) · [X: @alanvoasi](https://x.com/alanvoasi)
