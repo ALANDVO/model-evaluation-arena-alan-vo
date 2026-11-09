@@ -1,16 +1,36 @@
 {
   "schema_version": 1,
-  "current_feature": "continue-implementation",
+  "current_feature": "evaluation-report-comparison-test",
   "features": [
     {
       "id": "continue-implementation",
       "title": "Continue implementation and resolve known failures",
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         "Run checks, fix failures, and implement the next planned feature"
       ],
       "implementation": [],
-      "tests": []
+      "tests": [
+        "backend/tests/test_api_workflows.py (all 24 tests pass)",
+        "frontend/src/test/App.test.tsx (all 5 tests pass)"
+      ]
+    },
+    {
+      "id": "evaluation-report-comparison-test",
+      "title": "Add frontend test for EvaluationReportComparison component",
+      "status": "done",
+      "acceptance": [
+        "Test renders EvaluationReportComparison with metrics table showing bootstrap CIs",
+        "Test verifies paired tests section displays significance results",
+        "Test verifies slice disparities section shows cohort breakdowns and worst slice",
+        "Test verifies export buttons (JSON and CSV) are present"
+      ],
+      "implementation": [
+        "frontend/src/test/App.test.tsx (added test for EvaluationReportComparison)"
+      ],
+      "tests": [
+        "frontend/src/test/App.test.tsx (5 tests total, all pass)"
+      ]
     }
   ]
 }
