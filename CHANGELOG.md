@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.4.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
@@ -14,7 +18,6 @@ Partial code published for continued development. Known issues: STATUS.md.
 ### Changed
 - Rewrote EvaluationReportComparison component with proper TypeScript types (was previously minified).
 - Updated feature-plan.json, PLAN.md, and STATUS.md to track comparison-export feature as completed.
-
 
 ## 1.3.0 — work-in-progress checkpoint
 
@@ -42,8 +45,6 @@ Partial code published for continued development. Known issues: STATUS.md.
 
 ### Fixed
 - Minor test matcher update in frontend to handle minified CI badge text rendering.
-
-Partial code published for continued development. Known issues: STATUS.md.
 
 ## [1.1.2] - 2026-11-01
 
