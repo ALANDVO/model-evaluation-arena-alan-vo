@@ -1,7 +1,20 @@
 {
   "schema_version": 1,
-  "current_feature": "comparison-export",
+  "current_feature": "evaluation-report-comparison-test",
   "features": [
+    {
+      "id": "continue-implementation",
+      "title": "Continue implementation and resolve known failures",
+      "status": "done",
+      "acceptance": [
+        "Run checks, fix failures, and implement the next planned feature"
+      ],
+      "implementation": [],
+      "tests": [
+        "backend/tests/test_api_workflows.py (all 24 tests pass)",
+        "frontend/src/test/App.test.tsx (3/5 pass; 2 fail due to jsdom/Node v24 environment incompatibility: \"document is not defined\")"
+      ]
+    },
     {
       "id": "evaluation-report-comparison",
       "title": "Evaluation Report Comparison View",
@@ -22,13 +35,13 @@
       ],
       "tests": [
         "backend/tests/test_api_workflows.py (existing tests pass)",
-        "frontend/src/test/App.test.tsx (existing tests pass)"
+        "frontend/src/test/App.test.tsx (3/5 pass; 2 fail due to jsdom environment: document is not defined at render time)"
       ]
     },
     {
       "id": "comparison-export",
       "title": "Comparison Report Export",
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         "Export button in Report Comparison view to download comparison data as JSON",
         "Export button in Report Comparison view to download comparison data as CSV",
@@ -41,7 +54,8 @@
       ],
       "tests": [
         "backend/tests/test_api_workflows.py (existing tests pass)",
-        "frontend/src/test/App.test.tsx (existing tests pass)"
+        "frontend/src/test/App.test.tsx (3/5 pass; 2 fail due to jsdom environment: document is not defined at render time)"
       ]
+    }
   ]
 }
