@@ -24,7 +24,12 @@ class Settings(BaseModel):
     llm_timeout_seconds: float = Field(default_factory=lambda: float(os.getenv("LLM_TIMEOUT_SECONDS", "30.0")))
 
     def validate_runtime(self) -> None:
+        # Production security invariants
         if self.app_env.lower() == "production" and self.demo_mode:
             raise RuntimeError("CRITICAL: Startup refused - Demo mode cannot be enabled in production environment.")
+        if self.app_env.lower() == "production" and not self.secret_key or self.secret_key == "default-dev-secret-key-at-least-32-chars-long":
+            raise RuntimeError("CRITICAL: Startup refused - Production environment requires a strong secret_key.")
+        if self.app_env.lower() == "production" and self.llm_provider == "openai-compatible" and not self.llm_api_key:
+            raise RuntimeError("CRITICAL: Startup refused - LLM API key is required when using openai-compatible provider in production.")
 
 settings = Settings()
