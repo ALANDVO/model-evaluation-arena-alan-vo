@@ -194,9 +194,9 @@ def export_report(report_id: int, format: str = Query("json", pattern="^(json|cs
         data = {"report_id": r.id, "title": r.title, "dataset_id": r.dataset_id, "models_summary": metrics_list, "paired_comparisons": json.loads(r.paired_comparisons), "slice_disparities": json.loads(r.slice_disparities), "created_at": r.created_at.isoformat()}
         return Response(content=json.dumps(data, indent=2), media_type="application/json", headers={"Content-Disposition": f"attachment; filename=arena_report_{report_id}.json"})
     out = io.StringIO()
-    out.write("model_run_id,model_name,sample_size,metric_name,point_estimate,ci_lower,ci_upper,standard_error\n")
+    out.write("model_run_id,model_name,sample_size,metric_name,point_estimate,ci_lower,ci_upper,standard_error,confidence_level\n")
     for m in metrics_list:
         m_id, m_name, sz = m.get("model_run_id"), m.get("model_name"), m.get("sample_size")
         for k, v in m.get("bootstrap_cis", {}).items():
-            out.write(f"{m_id},{m_name},{sz},{k},{v.get('point_estimate')},{v.get('ci_lower')},{v.get('ci_upper')},{v.get('standard_error')}\n")
+            out.write(f"{m_id},{m_name},{sz},{k},{v.get('point_estimate')},{v.get('ci_lower')},{v.get('ci_upper')},{v.get('standard_error')},{v.get('confidence_level')}\n")
     return Response(content=out.getvalue(), media_type="text/csv", headers={"Content-Disposition": f"attachment; filename=arena_report_{report_id}.csv"})
